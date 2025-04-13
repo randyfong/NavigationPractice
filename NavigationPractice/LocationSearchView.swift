@@ -130,58 +130,6 @@ struct LocationMapView: View {
 }
 
 
-// --------- View Actions
-typealias VoidClosure = () -> Void
-
-struct LocationSearchAction: Hashable {
-    let id = UUID()
-    let cancelSearch: VoidClosure
-    let searchFound: VoidClosure
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
-    static func ==(lhs: LocationSearchAction, rhs: LocationSearchAction) -> Bool {
-         return lhs.id == rhs.id
-    }
-}
-
-struct SearchForLocationAction: Hashable {
-    let id = UUID()
-    let cancelSearch: VoidClosure
-    let searchFound: VoidClosure
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
-    static func ==(lhs: SearchForLocationAction, rhs: SearchForLocationAction) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
-
-struct LocationFoundAction: Hashable {
-    let id = UUID()
-    let cancelSearch: VoidClosure
-    let saveLocation: VoidClosure
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
-    static func ==(lhs: LocationFoundAction, rhs: LocationFoundAction) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
-
-enum LocationRoute: Hashable {
-    case locationSearch
-    case searchForLocation
-    case locationFound(address: Address)
-    case locationMapView(address: Address)
-}
-
 // --------- Navigation Action
 struct LocationNavigationAction {
     typealias LocationAction = (LocationRoute) -> Void
