@@ -51,6 +51,8 @@ struct SearchForLocationView: View {
     @Environment(\.navigate) private var navigate
     @State private var isPulsating = false
     
+    let address = Address(street: "123 Main St", city: "Anytown", state: "CA", postalCode: "12345")
+    
     let searchForLocationAction: SearchForLocationAction
 
     var body: some View {
@@ -76,7 +78,7 @@ struct SearchForLocationView: View {
             .padding(.top, 20)
             Button(action: {
                 self.searchForLocationAction.searchFound()
-                navigate(.locationSearch)
+                navigate(.locationFound(address: address))
             }) {
                 Text("Location Found")
                     .font(.title)
@@ -93,6 +95,7 @@ struct SearchForLocationView: View {
 
 
 struct LocationFoundView: View {
+    @Environment(\.navigate) private var navigate
     let address: Address
     
 //    let startTour: () -> Void
@@ -115,6 +118,7 @@ struct LocationFoundView: View {
             HStack(spacing: 50) {
                 Button(action: {
                     self.locationFoundAction.cancelSearch()
+                    navigate(.locationSearch)
                 }) {
                     Text("Cancel")
                         .font(.title)
@@ -122,6 +126,7 @@ struct LocationFoundView: View {
 
                 Button(action: {
                     self.locationFoundAction.saveLocation()
+                    navigate(.locationSearch)
                 }) {
                     Text("Save")
                         .font(.title)
@@ -292,6 +297,7 @@ struct LocationSearchHomeView: View {
                             .foregroundColor(.blue)
                         Text("Local")
                             .font(.title)
+                            .padding(.top, 25)
                     }
                 }
             }
@@ -302,6 +308,7 @@ struct LocationSearchHomeView: View {
 #Preview("Launch") {
     @Previewable @Environment(\.navigate) var navigate
     @Previewable @State var routes: [LocationRoute] = []
+    let address = Address(street: "123 Main St", city: "Anytown", state: "CA", postalCode: "12345")
     let locationSearchAction: LocationSearchAction = .init(
         cancelSearch: { },
         searchFound: { } )
@@ -326,14 +333,17 @@ struct LocationSearchHomeView: View {
                 default:
                     Text("Default")
                 }
-                
             }
+        Spacer()
     }
     .environment(\.navigate, LocationNavigationAction { route in
         switch route {
         case .locationSearch:
             print("locationSearch")
             routes.removeAll()
+        case .locationFound(address: address):
+            print("locationFound")
+            routes.append(route)
         default:
             print("add route \(route)")
             routes.append(route)
