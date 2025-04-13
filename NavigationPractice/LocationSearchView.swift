@@ -93,10 +93,8 @@ struct LocationSearchView: View {
     .environment(\.navigate, LocationNavigationAction { route in
         switch route {
         case .locationSearch:
-            print("locationSearch")
             routes.removeAll()
         case .locationFound(address: address):
-            print("locationFound")
             routes.append(route)
         default:
             print("add route \(route)")
