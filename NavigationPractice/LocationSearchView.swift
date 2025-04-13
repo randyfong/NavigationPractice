@@ -71,33 +71,35 @@ struct LocationSearchView: View {
         saveLocation: { } )
     
     NavigationStack(path: $routes) {
-        LocationSearchView(locationSearchAction: locationSearchAction)
-            .navigationDestination(for: LocationRoute.self) { route in
-                switch route {
-                case .locationSearch:
-                    LocationSearchView(locationSearchAction: locationSearchAction)
-                case .searchForLocation:
-                    SearchForLocationView(searchForLocationAction: searchForLocationAction)
-                case .locationFound(let address):
-                    LocationFoundView(address: address,
-                                      locationFoundAction: locationFoundAction)
-                case .locationMapView:
-                    LocationMapView()
-                    
-                default:
-                    Text("Default")
+        VStack {
+            LocationSearchView(locationSearchAction: locationSearchAction)
+                .navigationDestination(for: LocationRoute.self) { route in
+                    switch route {
+                    case .locationSearch:
+                        LocationSearchView(locationSearchAction: locationSearchAction)
+                    case .searchForLocation:
+                        SearchForLocationView(searchForLocationAction: searchForLocationAction)
+                    case .locationFound(let address):
+                        LocationFoundView(address: address,
+                                          locationFoundAction: locationFoundAction)
+                    case .locationMapView:
+                        LocationMapView()
+                    default:
+                        Text("Default")
+                    }
                 }
-            }
-        Spacer()
+            Spacer()
+        }
     }
     .environment(\.navigate, LocationNavigationAction { route in
         switch route {
         case .locationSearch:
             routes.removeAll()
+        case .searchForLocation:
+            routes = [route]
         case .locationFound(address: address):
-            routes.append(route)
+            routes = [route]
         default:
-            print("add route \(route)")
             routes.append(route)
         }
     })
