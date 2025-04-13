@@ -40,6 +40,8 @@ struct LocationMapView: View {
 struct LocationSearchView: View {
     @Environment(\.navigate) private var navigate
     let locationSearchAction: LocationSearchAction
+    let address = Address(street: "123 Main St", city: "Anytown", state: "CA", postalCode: "12345")
+
     var body: some View {
         VStack {
             Text("Location Search")
@@ -56,6 +58,19 @@ struct LocationSearchView: View {
                             .font(.system(size: 60))
                             .foregroundColor(.blue)
                         Text("Local")
+                            .font(.title)
+                            .padding(.top, 25)
+                    }
+                }
+                Button(action: {
+//                    locationSearchAction.searchFound()
+                    navigate(.locationMapView)
+                }) {
+                    VStack {
+                        Image(systemName: "map")
+                            .font(.system(size: 60))
+                            .foregroundColor(.blue)
+                        Text("Map")
                             .font(.title)
                             .padding(.top, 25)
                     }
@@ -90,6 +105,9 @@ struct LocationSearchView: View {
                 case .locationFound(let address):
                     LocationFoundView(address: address,
                                       locationFoundAction: locationFoundAction)
+                case .locationMapView:
+                    LocationMapView()
+                    
                 default:
                     Text("Default")
                 }

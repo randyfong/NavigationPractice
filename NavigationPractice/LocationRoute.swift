@@ -10,5 +10,5 @@ enum LocationRoute: Hashable {
     case locationSearch
     case searchForLocation
     case locationFound(address: Address)
-    case locationMapView(address: Address)
+    case locationMapView
 }
