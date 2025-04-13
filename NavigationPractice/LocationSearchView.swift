@@ -37,10 +37,7 @@ struct LocationMapView: View {
 }
 
 
-// --------- Navigation Action
-
-
-struct LocationSearchHomeView: View {
+struct LocationSearchView: View {
     @Environment(\.navigate) private var navigate
     let locationSearchAction: LocationSearchAction
     var body: some View {
@@ -83,11 +80,11 @@ struct LocationSearchHomeView: View {
         saveLocation: { } )
     
     NavigationStack(path: $routes) {
-        LocationSearchHomeView(locationSearchAction: locationSearchAction)
+        LocationSearchView(locationSearchAction: locationSearchAction)
             .navigationDestination(for: LocationRoute.self) { route in
                 switch route {
                 case .locationSearch:
-                    LocationSearchHomeView(locationSearchAction: locationSearchAction)
+                    LocationSearchView(locationSearchAction: locationSearchAction)
                 case .searchForLocation:
                     SearchForLocationView(searchForLocationAction: searchForLocationAction)
                 case .locationFound(let address):
