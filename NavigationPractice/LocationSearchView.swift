@@ -13,12 +13,6 @@ extension EnvironmentValues {
     @Entry var navigate = LocationNavigationAction { _ in }
 }
 
-
-
-
-
-
-
 struct LocationSearchView: View {
     @Environment(\.navigate) private var navigate
     let locationSearchAction: LocationSearchAction
@@ -32,7 +26,7 @@ struct LocationSearchView: View {
                 .padding(.bottom, 50)
             VStack(spacing: 50) {
                 Button(action: {
-                    locationSearchAction.searchFound()
+                    locationSearchAction.searchLocation()
                     navigate(.searchForLocation)
                 }) {
                     VStack {
@@ -45,7 +39,7 @@ struct LocationSearchView: View {
                     }
                 }
                 Button(action: {
-//                    locationSearchAction.searchFound()
+                    locationSearchAction.mapLocation()
                     navigate(.locationMapView)
                 }) {
                     VStack {
@@ -67,8 +61,8 @@ struct LocationSearchView: View {
     @Previewable @State var routes: [LocationRoute] = []
     let address = Address(street: "123 Main St", city: "Anytown", state: "CA", postalCode: "12345")
     let locationSearchAction: LocationSearchAction = .init(
-        cancelSearch: { },
-        searchFound: { } )
+        searchLocation: { },
+        mapLocation: { } )
     let searchForLocationAction: SearchForLocationAction = .init(
         cancelSearch: { },
         searchFound: { } )

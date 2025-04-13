@@ -11,8 +11,8 @@ typealias VoidClosure = () -> Void
 
 struct LocationSearchAction: Hashable {
     let id = UUID()
-    let cancelSearch: VoidClosure
-    let searchFound: VoidClosure
+    let searchLocation: VoidClosure
+    let mapLocation: VoidClosure
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
