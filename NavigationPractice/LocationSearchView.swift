@@ -8,43 +8,9 @@
 import SwiftUI
 import MapKit
 
-// --------- Struct Data
-
-struct Address: Codable, Hashable {
-    var street: String
-    var city: String
-    var state: String
-    var postalCode: String
-    var country: String?
-
-    init(street: String, city: String, state: String, postalCode: String, country: String? = nil) {
-        self.street = street
-        self.city = city
-        self.state = state
-        self.postalCode = postalCode
-        self.country = country
-    }
-
-    var formattedAddress: String {
-        var result = "\(street)\n\(city), \(state) \(postalCode)"
-        if let country = country {
-            result += "\n\(country)"
-        }
-        return result
-    }
-}
-
 // --------- Environment Data
 extension EnvironmentValues {
     @Entry var navigate = LocationNavigationAction { _ in }
-}
-
-// --------- Views
-enum LocationSearchViews: CaseIterable  {
-    case locationSearchHomeView
-    case searchForLocalLocationView
-    case locationFoundView
-    case locationMapView
 }
 
 struct SearchForLocationView: View {
@@ -313,33 +279,6 @@ struct LocationSearchHomeView: View {
             routes.append(route)
         }
     })
-}
-
-// --------- Models
-
-@Observable
-class LocationSearchModel {
-    var locationSearchViews: LocationSearchViews
-    var timerCount = 0
-    init(locationSearchView: LocationSearchViews) {
-        self.locationSearchViews = locationSearchView
-//        runEveryFiveSeconds()
-    }
-    
-    func runEveryFiveSeconds() {
-        Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { timer in
-            if self.timerCount == 10 {
-                timer.invalidate() // invalidate the timer
-            } else {
-                self.timerCount += 1
-                let randomView = LocationSearchViews.allCases.randomElement() ?? .locationSearchHomeView
-//                self.locationSearchViews = randomView
-                if randomView != .locationSearchHomeView {
-                    self.locationSearchViews = randomView
-                }
-            }
-        }
-    }
 }
 
 
