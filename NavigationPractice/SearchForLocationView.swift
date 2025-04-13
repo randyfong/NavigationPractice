@@ -46,6 +46,7 @@ struct SearchForLocationView: View {
             .padding(.top, 20)
             Spacer()
         }
+        .toolbar(.hidden)
         .onAppear {
             isPulsating = true
         }
