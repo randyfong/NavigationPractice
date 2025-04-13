@@ -209,47 +209,11 @@ struct LocationFoundAction: Hashable {
     }
 }
 
-// --------- Route
-//enum LocationRoute: Hashable {
-//    case locationSearch(locationSearchAction: LocationSearchAction)
-//    case searchForLocation(searchForLocationAction: SearchForLocationAction)
-//    case locationFound(address: Address, locationFoundAction: LocationFoundAction)
-//    case locationMapView(address: Address)
-//    
-//    @ViewBuilder
-//    var destination: some View {
-//        switch self {
-//        case .locationSearch(let locationSearchAction):
-//            LocationSearchHomeView(locationSearchAction: locationSearchAction)
-//        case .searchForLocation(let searchForLocationAction):
-//            SearchForLocationView(searchForLocationAction: searchForLocationAction)
-//        case .locationFound(let address, let searchForLocationAction):
-//            LocationFoundView(address: address, locationFoundAction: searchForLocationAction)
-//        default:
-//            EmptyView()
-//        }
-//    }
-//}
-
 enum LocationRoute: Hashable {
     case locationSearch
     case searchForLocation
     case locationFound(address: Address)
     case locationMapView(address: Address)
-    
-//    @ViewBuilder
-//    var destination: some View {
-//        switch self {
-//        case .locationSearch:
-//            LocationSearchHomeView(locationSearchAction: locationSearchAction)
-//        case .searchForLocation(let searchForLocationAction):
-//            SearchForLocationView(searchForLocationAction: searchForLocationAction)
-//        case .locationFound(let address, let searchForLocationAction):
-//            LocationFoundView(address: address, locationFoundAction: searchForLocationAction)
-//        default:
-//            EmptyView()
-//        }
-//    }
 }
 
 // --------- Navigation Action
@@ -349,19 +313,6 @@ struct LocationSearchHomeView: View {
             routes.append(route)
         }
     })
-//    func buildView(_ route: LocationRoute) -> some View {
-//        switch route {
-//        case .locationSearch:
-//            LocationSearchHomeView(locationSearchAction: locationSearchAction)
-//        case .searchForLocation:
-//            SearchForLocationView(searchForLocationAction: searchForLocationAction)
-//        case .locationFound(let address):
-//            LocationFoundView(address: address,
-//                              locationFoundAction: locationFoundAction)
-//        default:
-//            Text("Default")
-//        }
-//    }
 }
 
 // --------- Models
