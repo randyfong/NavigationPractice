@@ -13,10 +13,6 @@ extension EnvironmentValues {
     @Entry var navigate = LocationNavigationAction { _ in }
 }
 
-
-
-
-
 struct LocationMapView: View {
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194), // Default to San Francisco
@@ -42,29 +38,7 @@ struct LocationMapView: View {
 
 
 // --------- Navigation Action
-struct LocationNavigationAction {
-    typealias LocationAction = (LocationRoute) -> Void
-    let action: LocationAction
-    func callAsFunction(_ route: LocationRoute) -> Void {
-        action(route)
-    }
-}
 
-struct SearchForLocationNavigationAction {
-    typealias SearchForLocationAction  = (LocationRoute) -> Void
-    let action: SearchForLocationAction
-    func callAsFunction(_ route: LocationRoute) -> Void {
-        action(route)
-    }
-}
-
-struct LocationFoundNavigationAction {
-    typealias LocationFoundAction  = (LocationRoute) -> Void
-    let action: LocationFoundAction
-    func callAsFunction(_ route: LocationRoute) -> Void {
-        action(route)
-    }
-}
 
 struct LocationSearchHomeView: View {
     @Environment(\.navigate) private var navigate
