@@ -10,11 +10,11 @@ import MapKit
 
 // --------- Environment Data
 extension EnvironmentValues {
-    @Entry var navigate = LocationNavigationAction { _ in }
+    @Entry var navigateLocation = LocationNavigationAction { _ in }
 }
 
 struct LocationSearchView: View {
-    @Environment(\.navigate) private var navigate
+    @Environment(\.navigateLocation) private var navigate
     let locationSearchAction: LocationSearchAction
     let address = Address(street: "123 Main St", city: "Anytown", state: "CA", postalCode: "12345")
 
@@ -57,7 +57,7 @@ struct LocationSearchView: View {
 }
 
 #Preview("Launch") {
-    @Previewable @Environment(\.navigate) var navigate
+    @Previewable @Environment(\.navigateLocation) var navigate
     @Previewable @State var routes: [LocationRoute] = []
     let address = Address(street: "123 Main St", city: "Anytown", state: "CA", postalCode: "12345")
     let locationSearchAction: LocationSearchAction = .init(
@@ -91,7 +91,7 @@ struct LocationSearchView: View {
             Spacer()
         }
     }
-    .environment(\.navigate, LocationNavigationAction { route in
+    .environment(\.navigateLocation, LocationNavigationAction { route in
         switch route {
         case .locationSearch:
             routes.removeAll()

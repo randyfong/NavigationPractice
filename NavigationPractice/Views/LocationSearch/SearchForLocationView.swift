@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchForLocationView: View {
-    @Environment(\.navigate) private var navigate
+    @Environment(\.navigateLocation) private var navigate
     @State private var isPulsating = false
     
     let address = Address(street: "123 Main St", city: "Anytown", state: "CA", postalCode: "12345")

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LocationFoundView: View {
-    @Environment(\.navigate) private var navigate
+    @Environment(\.navigateLocation) private var navigate
     let address: Address
     
 //    let startTour: () -> Void
