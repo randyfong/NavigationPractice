@@ -8,9 +8,10 @@
 import Foundation
 
 enum LoadMediaRoute: Hashable {
-    case beginning
+    case begin
     case load
     case cancel
+    case reload
     case successfulCompletion
-    case errorMessage(String)
+    case error(String)
 }

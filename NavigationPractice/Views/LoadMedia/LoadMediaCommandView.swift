@@ -14,27 +14,108 @@ extension EnvironmentValues {
 
 struct LocationMediaView: View {
     @Environment(\.navigateLoadMedia) private var navigate
+    @State var loadMediaRoute: LoadMediaRoute
+    
 //    let loadMediaAction: LocationMediaAction
     let address = Address(street: "123 Main St", city: "Anytown", state: "CA", postalCode: "12345")
 
     var body: some View {
         VStack {
-            Text("Message: Select to load")
-                .font(.body)
-                .padding(.top, 10)
-                .padding(.bottom, 50)
+//            Text("Message: Select to load")
+//                .font(.body)
+//                .padding(.top, 10)
+//                .padding(.bottom, 50)
+            switch loadMediaRoute {
+            case .begin:
+                Text("")
+            case .load:
+                Text("Loading....")
+                    .foregroundColor(.blue)
+                    .padding()
+            case .cancel:
+                Text("Load Cancelled")
+                    .foregroundColor(.red)
+                    .padding()
+            case .reload:
+                Text("Loading....")
+                    .foregroundColor(.green)
+                    .padding()
+            case .successfulCompletion:
+                Text("Media Loaded")
+                    .foregroundColor(.green)
+                    .padding()
+            case .error(let message):
+                Text("Error: \(message)")
+                    .foregroundColor(.red)
+                    .padding()
+            }
+
             VStack(spacing: 50) {
                 Button(action: {
                 }) {
                     VStack {
-                        Text("Load")
-                            .font(.body)
-                            .padding(.top, 25)
+                        /*
+                         enum LoadMediaRoute: Hashable {
+                             case beginning
+                             case load
+                             case cancel
+                             case reload
+                             case successfulCompletion
+                             case error(String)
+                         }
+                         */
+                        switch loadMediaRoute {
+                        case .begin:
+                            Button("Load Media") {
+                                loadMediaRoute = .load
+                            }
+                        case .load:
+                            Button("Cancel") {
+                                loadMediaRoute = .begin
+                            }
+                        case .cancel:
+                            Button("Load Media") {
+                                loadMediaRoute = .begin
+                            }
+                        case .reload:
+                            Button("Cancel") {
+                                loadMediaRoute = .begin
+                            }
+                        case .successfulCompletion:
+                            Button("Delete") {
+                                loadMediaRoute = .begin
+                            }
+                            Button("Reload") {
+                                loadMediaRoute = .load
+                            }
+                        case .error(_):
+                            Button("Load Media") {
+                                loadMediaRoute = .load
+                            }
+                        }
                     }
                 }
             }
         }
     }
+}
+
+#Preview("Launch") {
+    @Previewable @Environment(\.navigateLoadMedia) var navigate
+    @Previewable @State var loadMediaRoute: LoadMediaRoute = .begin
+    LocationMediaView(loadMediaRoute: loadMediaRoute)
+}
+
+#Preview("Successful Load") {
+    @Previewable @Environment(\.navigateLoadMedia) var navigate
+    @Previewable @State var loadMediaRoute: LoadMediaRoute = .successfulCompletion
+    LocationMediaView(loadMediaRoute: loadMediaRoute)
+}
+
+#Preview("Error") {
+    @Previewable @Environment(\.navigateLoadMedia) var navigate
+    @Previewable @State var loadMediaRoute: LoadMediaRoute = .error("DB Error")
+    LocationMediaView(loadMediaRoute: loadMediaRoute)
 }
 
 /*
