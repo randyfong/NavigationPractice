@@ -13,11 +13,26 @@ enum TourSite {
 }
 
 struct TourSiteView: View {
+    @State var locations: [String] = ["Entrance", "Living Room", "Kitchen", "Bedroom"]
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List(locations, id: \.self) { location in
+            NavigationLink(location, value: location)
+        }
+    }
+}
+
+struct TourItemView: View {
+    let item: String
+    var body: some View {
+        Text(item)
     }
 }
 
 #Preview {
-    TourSiteView()
+    NavigationStack {
+        TourSiteView()
+            .navigationDestination(for: String.self) { location in
+                TourItemView(item: location)
+            }
+    }
 }
