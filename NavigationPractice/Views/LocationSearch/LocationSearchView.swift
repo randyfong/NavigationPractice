@@ -84,8 +84,6 @@ struct LocationSearchView: View {
                                           locationFoundAction: locationFoundAction)
                     case .locationMapView:
                         LocationMapView()
-                    default:
-                        Text("Default")
                     }
                 }
             Spacer()

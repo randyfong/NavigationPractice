@@ -7,32 +7,62 @@
 
 import SwiftUI
 
-enum TourSite {
-    case overview
-    case conductTour
+
+
+extension EnvironmentValues {
+    @Entry var navigateTour = TourNavigationAction { _ in }
 }
 
 struct TourSiteView: View {
-    @State var locations: [String] = ["Entrance", "Living Room", "Kitchen", "Bedroom"]
+    @Environment(\.navigateTour) private var navigate
+    @State var locations: [Location] =
+    [.init(name: "Entrance"),
+     .init(name: "Living Room"),
+     .init(name: "Kitchen"),
+     .init(name: "Bedroom")]
+    
     var body: some View {
         List(locations, id: \.self) { location in
-            NavigationLink(location, value: location)
+            VStack {
+                Button(location.name) {
+                    navigate(.conductTour(location: location))
+                }
+            }
         }
     }
 }
 
 struct TourItemView: View {
-    let item: String
+    let location: Location
     var body: some View {
-        Text(item)
+        Text("Name: \(location.name)")
     }
 }
 
-#Preview {
-    NavigationStack {
-        TourSiteView()
-            .navigationDestination(for: String.self) { location in
-                TourItemView(item: location)
-            }
+#Preview("Tour Site") {
+    @Previewable @Environment(\.navigateTour) var navigate
+    @Previewable @State var routes: [TourRoute] = []
+    
+    NavigationStack(path: $routes) {
+        VStack {
+            TourSiteView()
+                .navigationDestination(for: TourRoute.self) { tourRoute in
+                    switch tourRoute {
+                    case .overview:
+                        TourSiteView()
+                    case .conductTour(location: let location):
+                        TourItemView(location: location)
+                    }
+                }
+            Spacer()
+        }
     }
+    .environment(\.navigateTour, TourNavigationAction { route in
+        switch route {
+        case .overview:
+            routes.removeAll()
+        case .conductTour(_):
+            routes = [route]
+        }
+    })
 }
