@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-
-
 extension EnvironmentValues {
     @Entry var navigateTour = TourNavigationAction { _ in }
 }
