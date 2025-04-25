@@ -7,17 +7,36 @@
 
 import SwiftUI
 
+extension EnvironmentValues {
+    @Entry var navigateLocation = LocationNavigationAction { _ in }
+}
+
 struct MainView: View {
+    @Environment(Router.self) private var router
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        @Bindable var router = router
+        Button(action: {
+//            locationSearchAction.searchLocation()
+            print("Button Pressed")
+//            navigateLocation(.searchForLocation)
+        }) {
+            VStack {
+                Image(systemName: "wifi")
+                    .font(.system(size: 60))
+                    .foregroundColor(.blue)
+                Text("Local")
+                    .font(.title)
+                    .padding(.top, 25)
+            }
+        }
+        
     }
 }
 
 #Preview("Main") {
-    @Previewable @State var locationRoutes: LocationRoute? = .locationSearch
-    @Previewable @State var loadMediaRoutes: LoadMediaRoute?
-    @Previewable @State var tourRoutes: TourRoute?
     
+    @Previewable @Environment(\.navigateLocation) var navigateLocation
+    @Previewable @State var router: Router = Router()
     let locationSearchAction: LocationSearchAction = .init(
         searchLocation: { },
         mapLocation: { } )
@@ -28,13 +47,68 @@ struct MainView: View {
         cancelSearch: { },
         saveLocation: { } )
     
+    let loadMediaRoute = LoadMediaRoute.begin
     
-    NavigationStack {
+    TabView {
+        NavigationStack(path: $router.locationRoutes) {
+            VStack {
+                LocationSearchView(locationSearchAction: locationSearchAction)
+                    .navigationDestination(for: LocationRoute.self) { route in
+                        switch route {
+                        case .locationSearch:
+                            LocationSearchView(locationSearchAction: locationSearchAction)
+                        case .searchForLocation:
+                            SearchForLocationView(searchForLocationAction: searchForLocationAction)
+                        case .locationFound(let address):
+                            LocationFoundView(address: address,
+                                              locationFoundAction: locationFoundAction)
+                        case .locationMapView:
+                            LocationMapView()
+                        }
+                    }
+                Spacer()
+            }
+        }.tabItem {
+            Label("Search", systemImage: "magnifyingglass")
+        }
+        VStack {
+            NavigationStack(path: $router.tourRoutes) {
+                LocationMediaView(loadMediaRoute: loadMediaRoute)
+                    .tabItem {
+                        Label("Media", systemImage: "arrow.up.right.video")
+                    }
+            }
+        }
+        VStack {
+            NavigationStack(path: $router.tourRoutes) {
+                TourSiteView()
+                    .navigationDestination(for: TourRoute.self) { tourRoute in
+                        switch tourRoute {
+                        case .overview:
+                            TourSiteView()
+                        case .conductTour(location: let location):
+                            TourItemView(location: location)
+                        }
+                    }
+                Spacer()
+            }
+        }
+        .tabItem {
+            Label("Tour", systemImage: "figure.walk.motion")
+        }
+    }
+        
+}
+    
+    
+/*
+    NavigationStack(path: $routes) {
         MainView()
-        .navigationDestination(for: LocationRoute.self) { route in
+        .navigationDestination(for: Router.self) { route in
             switch route {
             case .locationSearch:
-                LocationSearchView(locationSearchAction: locationSearchAction)
+                Text("Location Search")
+//                LocationSearchView(locationSearchAction: locationSearchAction)
             case .searchForLocation:
                 SearchForLocationView(searchForLocationAction: searchForLocationAction)
             case .locationFound(let address):
@@ -59,4 +133,33 @@ struct MainView: View {
             }
         }
     }
+    .environment(\.navigateLocation, LocationNavigationAction { route in
+        switch route {
+        case .locationSearch:
+            print("locationSearch")
+//            locationRoutes.removeAll()
+            locationRoutes = [route]
+        case .searchForLocation:
+            print("searchForLocation")
+            locationRoutes = [route]
+        case .locationFound(_):
+            print("locationFound")
+            locationRoutes = [route]
+        default:
+            print("default")
+            locationRoutes.append(route)
+        }
+    })
+    .environment(\.navigateLoadMedia, LoadMediaNavigationAction { route in
+        loadMediaRoutes = [route]
+    })
+    .environment(\.navigateTour, TourNavigationAction { route in
+        switch route {
+        case .overview:
+            tourRoutes.removeAll()
+        case .conductTour(_):
+            tourRoutes = [route]
+        }
+    })
 }
+*/

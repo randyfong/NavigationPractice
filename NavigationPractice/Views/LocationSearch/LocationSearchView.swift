@@ -9,12 +9,12 @@ import SwiftUI
 import MapKit
 
 // --------- Environment Data
-extension EnvironmentValues {
-    @Entry var navigateLocation = LocationNavigationAction { _ in }
-}
+//extension EnvironmentValues {
+//    @Entry var navigateLocation = LocationNavigationAction { _ in }
+//}
 
 struct LocationSearchView: View {
-    @Environment(\.navigateLocation) private var navigate
+    @Environment(\.navigateLocation) private var navigateLocation
     let locationSearchAction: LocationSearchAction
     let address = Address(street: "123 Main St", city: "Anytown", state: "CA", postalCode: "12345")
 
@@ -27,7 +27,7 @@ struct LocationSearchView: View {
             VStack(spacing: 50) {
                 Button(action: {
                     locationSearchAction.searchLocation()
-                    navigate(.searchForLocation)
+                    navigateLocation(.searchForLocation)
                 }) {
                     VStack {
                         Image(systemName: "wifi")
@@ -40,7 +40,7 @@ struct LocationSearchView: View {
                 }
                 Button(action: {
                     locationSearchAction.mapLocation()
-                    navigate(.locationMapView)
+                    navigateLocation(.locationMapView)
                 }) {
                     VStack {
                         Image(systemName: "map")
@@ -57,7 +57,7 @@ struct LocationSearchView: View {
 }
 
 #Preview("Launch") {
-    @Previewable @Environment(\.navigateLocation) var navigate
+    @Previewable @Environment(\.navigateLocation) var navigateLocation
     @Previewable @State var routes: [LocationRoute] = []
     let address = Address(street: "123 Main St", city: "Anytown", state: "CA", postalCode: "12345")
     let locationSearchAction: LocationSearchAction = .init(
