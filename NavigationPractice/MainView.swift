@@ -29,6 +29,19 @@ struct MainView: View {
                     .padding(.top, 25)
             }
         }
+        Button(action: {
+//            locationSearchAction.mapLocation()
+//            navigateLocation(.locationMapView)
+        }) {
+            VStack {
+                Image(systemName: "map")
+                    .font(.system(size: 60))
+                    .foregroundColor(.blue)
+                Text("Map")
+                    .font(.title)
+                    .padding(.top, 25)
+            }
+        }
         
     }
 }
