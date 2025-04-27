@@ -68,7 +68,20 @@ struct MainView: View {
                     }
                 Spacer()
             }
-        }.tabItem {
+        }
+        .environment(\.navigateLocation, LocationNavigationAction { route in
+            switch route {
+            case .locationSearch:
+                router.locationRoutes.removeAll()
+            case .searchForLocation:
+                router.locationRoutes = [route]
+            case .locationFound(_):
+                router.locationRoutes = [route]
+            default:
+                router.locationRoutes.append(route)
+            }
+        })
+        .tabItem {
             Label("Search", systemImage: "magnifyingglass")
         }
         VStack {
