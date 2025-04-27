@@ -84,6 +84,7 @@ struct MainView: View {
         .tabItem {
             Label("Search", systemImage: "magnifyingglass")
         }
+        
 //-----------------------------
         NavigationStack(path: $router.loadMediaRoutes) {
             VStack {
@@ -95,8 +96,9 @@ struct MainView: View {
             Label("Media", systemImage: "arrow.up.right.video")
         }
 //--------------------------------
-        VStack {
-            NavigationStack(path: $router.tourRoutes) {
+        
+        NavigationStack(path: $router.tourRoutes) {
+            VStack {
                 TourSiteView()
                     .navigationDestination(for: TourRoute.self) { tourRoute in
                         switch tourRoute {
@@ -109,6 +111,14 @@ struct MainView: View {
                 Spacer()
             }
         }
+        .environment(\.navigateTour, TourNavigationAction { route in
+            switch route {
+            case .overview:
+                router.tourRoutes.removeAll()
+            case .conductTour(_):
+                router.tourRoutes = [route]
+            }
+        })
         .tabItem {
             Label("Tour", systemImage: "figure.walk.motion")
         }
