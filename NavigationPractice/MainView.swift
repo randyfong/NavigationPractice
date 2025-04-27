@@ -84,14 +84,17 @@ struct MainView: View {
         .tabItem {
             Label("Search", systemImage: "magnifyingglass")
         }
-        VStack {
-            NavigationStack(path: $router.tourRoutes) {
+//-----------------------------
+        NavigationStack(path: $router.loadMediaRoutes) {
+            VStack {
                 LocationMediaView(loadMediaRoute: loadMediaRoute)
-                    .tabItem {
-                        Label("Media", systemImage: "arrow.up.right.video")
-                    }
+                Spacer()
             }
         }
+        .tabItem {
+            Label("Media", systemImage: "arrow.up.right.video")
+        }
+//--------------------------------
         VStack {
             NavigationStack(path: $router.tourRoutes) {
                 TourSiteView()
