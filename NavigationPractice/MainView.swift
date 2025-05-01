@@ -9,6 +9,8 @@ import SwiftUI
 
 extension EnvironmentValues {
     @Entry var navigateLocation = LocationNavigationAction { _ in }
+    @Entry var navigateLoadMedia = LoadMediaNavigationAction { _ in }
+    @Entry var navigateTour = TourNavigationAction { _ in }
 }
 
 struct MainView: View {

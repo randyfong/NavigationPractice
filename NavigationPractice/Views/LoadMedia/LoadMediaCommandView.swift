@@ -8,9 +8,9 @@
 import SwiftUI
 
 // --------- Environment Data
-extension EnvironmentValues {
-    @Entry var navigateLoadMedia = LoadMediaNavigationAction { _ in }
-}
+//extension EnvironmentValues {
+//    @Entry var navigateLoadMedia = LoadMediaNavigationAction { _ in }
+//}
 
 struct LocationMediaView: View {
     @Environment(\.navigateLoadMedia) private var navigate

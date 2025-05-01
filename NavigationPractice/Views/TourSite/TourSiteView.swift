@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-extension EnvironmentValues {
-    @Entry var navigateTour = TourNavigationAction { _ in }
-}
+//extension EnvironmentValues {
+//    @Entry var navigateTour = TourNavigationAction { _ in }
+//}
 
 struct TourSiteView: View {
     @Environment(\.navigateTour) private var navigate
