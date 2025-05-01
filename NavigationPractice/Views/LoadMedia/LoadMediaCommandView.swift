@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-// --------- Environment Data
-//extension EnvironmentValues {
-//    @Entry var navigateLoadMedia = LoadMediaNavigationAction { _ in }
-//}
-
 struct LocationMediaView: View {
     @Environment(\.navigateLoadMedia) private var navigate
     @State var loadMediaRoute: LoadMediaRoute
@@ -27,7 +22,7 @@ struct LocationMediaView: View {
 //                .padding(.bottom, 50)
             switch loadMediaRoute {
             case .begin:
-                Text("")
+                Text("Press button to begin")
             case .load:
                 Text("Loading....")
                     .foregroundColor(.blue)
@@ -69,9 +64,18 @@ struct LocationMediaView: View {
                             Button("Load Media") {
                                 loadMediaRoute = .load
                             }
+                            .padding(5)
                         case .load:
                             Button("Cancel") {
                                 loadMediaRoute = .begin
+                            }
+                            .padding(5)
+                            Button("Complete") {
+                                loadMediaRoute = .successfulCompletion
+                            }
+                            .padding(5)
+                            Button("Force Error") {
+                                loadMediaRoute = .error("Something went wrong")
                             }
                         case .cancel:
                             Button("Load Media") {
@@ -81,22 +85,38 @@ struct LocationMediaView: View {
                             Button("Cancel") {
                                 loadMediaRoute = .begin
                             }
+                            .padding(5)
+                            Button("Complete") {
+                                loadMediaRoute = .successfulCompletion
+                            }
                         case .successfulCompletion:
                             Button("Delete") {
                                 loadMediaRoute = .begin
                             }
+                            .padding(5)
                             Button("Reload") {
                                 loadMediaRoute = .load
                             }
+                            .padding(5)
+                            Button("Back to Begin") {
+                                loadMediaRoute = .begin
+                            }
                         case .error(_):
-                            Button("Load Media") {
+                            Button("Attempt Reload") {
                                 loadMediaRoute = .load
                             }
+                            .padding(5)
+                            Button("Begin") {
+                                loadMediaRoute = .begin
+                            }
+
                         }
                     }
                 }
             }
+            .padding(20)
         }
+
     }
 }
 
