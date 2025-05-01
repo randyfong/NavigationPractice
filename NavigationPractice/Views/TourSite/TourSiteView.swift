@@ -13,11 +13,12 @@ import SwiftUI
 
 struct TourSiteView: View {
     @Environment(\.navigateTour) private var navigate
-    @State var locations: [Location] =
-    [.init(name: "Entrance"),
-     .init(name: "Living Room"),
-     .init(name: "Kitchen"),
-     .init(name: "Bedroom")]
+    @State var locations: [Location]
+//    @State var locations: [Location] =
+//    [.init(name: "Entrance"),
+//     .init(name: "Living Room"),
+//     .init(name: "Kitchen"),
+//     .init(name: "Bedroom")]
     
     var body: some View {
         List(locations, id: \.self) { location in
@@ -41,13 +42,19 @@ struct TourItemView: View {
     @Previewable @Environment(\.navigateTour) var navigate
     @Previewable @State var routes: [TourRoute] = []
     
+    let tourLocations: [Location] =
+        [.init(name: "Entrance"),
+         .init(name: "Living Room"),
+         .init(name: "Kitchen"),
+         .init(name: "Bedroom")]
+    
     NavigationStack(path: $routes) {
         VStack {
-            TourSiteView()
+            TourSiteView(locations: tourLocations)
                 .navigationDestination(for: TourRoute.self) { tourRoute in
                     switch tourRoute {
                     case .overview:
-                        TourSiteView()
+                        TourSiteView(locations: tourLocations)
                     case .conductTour(location: let location):
                         TourItemView(location: location)
                     }

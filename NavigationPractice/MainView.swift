@@ -15,12 +15,13 @@ extension EnvironmentValues {
 
 struct MainView: View {
     @Environment(Router.self) private var router
+    @Environment(\.navigateLocation) private var navigateLocation
     var body: some View {
         @Bindable var router = router
         Button(action: {
 //            locationSearchAction.searchLocation()
             print("Button Pressed")
-//            navigateLocation(.searchForLocation)
+            navigateLocation(.searchForLocation)
         }) {
             VStack {
                 Image(systemName: "wifi")
@@ -33,7 +34,7 @@ struct MainView: View {
         }
         Button(action: {
 //            locationSearchAction.mapLocation()
-//            navigateLocation(.locationMapView)
+            navigateLocation(.locationMapView)
         }) {
             VStack {
                 Image(systemName: "map")
@@ -52,6 +53,8 @@ struct MainView: View {
     
     @Previewable @Environment(\.navigateLocation) var navigateLocation
     @Previewable @State var router: Router = Router()
+    
+    // Location Actions
     let locationSearchAction: LocationSearchAction = .init(
         searchLocation: { },
         mapLocation: { } )
@@ -63,6 +66,14 @@ struct MainView: View {
         saveLocation: { } )
     
     let loadMediaRoute = LoadMediaRoute.begin
+    
+    // Tour Actions
+    let tourLocations: [Location] =
+   [.init(name: "Entrance"),
+    .init(name: "Living Room"),
+    .init(name: "Kitchen"),
+    .init(name: "Bedroom")]
+   
     
     TabView {
         NavigationStack(path: $router.locationRoutes) {
@@ -114,11 +125,11 @@ struct MainView: View {
         
         NavigationStack(path: $router.tourRoutes) {
             VStack {
-                TourSiteView()
+                TourSiteView(locations: tourLocations)
                     .navigationDestination(for: TourRoute.self) { tourRoute in
                         switch tourRoute {
                         case .overview:
-                            TourSiteView()
+                            TourSiteView(locations: tourLocations)
                         case .conductTour(location: let location):
                             TourItemView(location: location)
                         }
